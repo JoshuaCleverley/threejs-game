@@ -5,7 +5,9 @@ import { createScene } from '@/scene'
 
 export function createGame() {
     // Game settings
-    const TICK_RATE = 2;
+    const GAME_SETTINGS = {
+        tick_rate: 2,
+    }
 
     // Create renderer
     const renderer = new THREE.WebGLRenderer();
@@ -18,6 +20,8 @@ export function createGame() {
 
     // Add gui
     const gui = new GUI();
+    let game_settings_folder = gui.addFolder("Game Settings");
+    game_settings_folder.add(GAME_SETTINGS, "tick_rate", 0.1, 20, 0.1).name("Tick Rate");
 
     // Add event listeners so that user inputs can be handled
     window.addEventListener('mousedown', onMouseDown,  false);
@@ -36,7 +40,7 @@ export function createGame() {
         setTimeout(() => {
             scene.tick();
             tick();
-        }, 1000 * (1 / TICK_RATE));
+        }, 1000 * (1 / GAME_SETTINGS.tick_rate));
     })();
       
 

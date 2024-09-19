@@ -1,21 +1,25 @@
-# Design
-
-## Objective
-- RS style RPG
-- Movement:
-    - Grid based movement
-    - Click to move
-    - Basically going to be directly copied from runescape
-
-## Features
-- Dungeons (procedural or premade)
-- Enemies/monsters (with AI)
-- Inventory, bank, loot
-- Skills
-- Quests
-- NPCs
-- World
-    - Different towns
-    - POIs
-- Classes?
-- Weapons
+# Todo List
+- [ ] Terrain
+    - [ ] Flat terrain (for now)
+    - [ ] Environment
+        - [ ] Trees
+        - [ ] Rocks
+        - [ ] Plants etc.
+    - [ ] Varied terrain (later)
+- [ ] Player character
+    - [ ] Draw character to screen
+    - [ ] Point and click controls
+    - [ ] Navigation
+    - [ ] A* pathfinding
+    - [ ] Obstacle avoidance
+- [ ] Enemies
+    - [ ] Draw enemies on screen
+    - [ ] Simple movement for enemies
+        - [ ] Follow
+        - [ ] Wander
+        - [ ] Patrolling
+- [ ] Combat
+    - [ ] Weapon speed
+    - [ ] Weapon damage
+    - [ ] Weapon accuracy
+- [ ]
