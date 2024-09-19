@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import Stats from 'three/addons/libs/stats.module.js';
+import GUI from 'three/addons/libs/lil-gui.module.min.js';
 import { createScene } from '@/scene'
 
 export function createGame() {
@@ -14,6 +15,9 @@ export function createGame() {
     // Add stats
     const stats = new Stats();
     document.body.appendChild(stats.dom);
+
+    // Add gui
+    const gui = new GUI();
 
     // Add event listeners so that user inputs can be handled
     window.addEventListener('mousedown', onMouseDown,  false);
@@ -50,7 +54,6 @@ export function createGame() {
     }
 
     function onScroll(event) {
-        //tick();
         scene.onScroll(event);
     }
 
