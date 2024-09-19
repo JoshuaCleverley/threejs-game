@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import Stats from 'three/addons/libs/stats.module.js';
 import GUI from 'lil-gui';
-import { createScene } from '@/scene'
+import { createScene, Scene } from '@/scene'
 
 export function createGame() {
     // Game settings
@@ -26,7 +26,7 @@ export function createGame() {
     window.addEventListener('resize',    handleResize, false);
 
     // Create and start a scene
-    const scene = createScene(renderer, stats, gui);
+    const scene = new Scene(renderer, stats, gui);
     scene.initialize();
     scene.start();
 

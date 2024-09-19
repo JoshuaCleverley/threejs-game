@@ -2,74 +2,76 @@ import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { Terrain } from '@/terrain';
 
-export function createScene(renderer, stats, gui) {
-    // Create scene and camera
-    const scene = new THREE.Scene();
+export class Scene extends THREE.Scene {
+    constructor(renderer, stats, gui) {
+        super();
 
-    const camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 1, 10000 );
-    const controls = new OrbitControls( camera, renderer.domElement );
+        this.renderer = renderer;
+        this.stats = stats;
+        this.gui = gui;
 
-    let terrain = new Terrain(10, 10);
+        this.camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 10000);
+        this.controls = new OrbitControls(this.camera, this.renderer.domElement);
 
-    const terrainFolder = gui.addFolder("Terrain");
-    terrainFolder.add(terrain, 'width', 1, 20, 1).name('width');
-    terrainFolder.add(terrain, 'height', 1, 20, 1).name('height');
-    terrainFolder.addColor(terrain.material, 'color');
-    terrainFolder.onChange(() => {
-        terrain.updateGeometry();
-    });
+        this.terrain = new Terrain(10, 10);
 
-    camera.position.set( 0, 10, 10 );
-    controls.update();
+        this.camera.position.set( 0, 10, 10 );
+        this.controls.update();
+    }
 
-    function initialize() {
-        scene.clear();
-        scene.add(terrain);
+    initialize() {
+        this.clear();
+        this.add(this.terrain);
         
-        setupLights();
+        this.setupLights();
+        this.setupGui();
+    }
+
+    setupGui() {
+        const terrainFolder = this.gui.addFolder("Terrain");
+        terrainFolder.add(this.terrain, 'width', 1, 20, 1).name('width');
+        terrainFolder.add(this.terrain, 'height', 1, 20, 1).name('height');
+        terrainFolder.addColor(this.terrain.material, 'color');
+        terrainFolder.onChange(() => {
+            this.terrain.updateGeometry();
+        });
     }
 
     // Lights
-    function setupLights() {
+    setupLights() {
         const ambient = new THREE.AmbientLight();
         ambient.intensity = 0.5;
 
         const sun = new THREE.DirectionalLight();
         sun.position.set(1,2,3)
 
-        scene.add(ambient, sun);
+        this.add(ambient, sun);
     }
 
-    function tick() {
+    tick() {
     }
 
-    function draw() {
+    draw(scene) {
         // Render the frame
-        stats?.update();
-        controls.update();
-        renderer.render(scene, camera);
+        scene.stats.update();
+        scene.controls.update();
+        scene.renderer.render(scene, scene.camera);
     }
 
-    function start() {
+    start() {
         // Starts the animation loop, running draw every frame
-        renderer.setAnimationLoop(draw);
+        this.renderer.setAnimationLoop(() => {
+            this.draw(this);
+        });
     }
 
-    function stop() {
+    stop() {
         // Stops the animation loop
-        renderer.setAnimationLoop(null);
+        this.renderer.setAnimationLoop(null);
     }
 
-    function handleResize(event) {
-      camera.aspect = window.innerWidth / window.innerHeight;
-       camera.updateProjectionMatrix();
-    }
-
-    return {
-        initialize,
-        tick,
-        start,
-        stop,
-        handleResize,
+    handleResize(event) {
+        this.camera.aspect = window.innerWidth / window.innerHeight;
+        this.camera.updateProjectionMatrix();
     }
 }
