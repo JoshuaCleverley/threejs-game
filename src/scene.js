@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import { createCamera } from '@/camera'
 
-export function createScene(renderer, stats) {
+export function createScene(renderer, stats, gui) {
     // Create scene and camera
     const scene = new THREE.Scene();
     const camera = createCamera();
@@ -10,7 +10,13 @@ export function createScene(renderer, stats) {
     const geometry = new THREE.BoxGeometry( 1, 1, 1 );
     const material = new THREE.MeshLambertMaterial( { color: 0x00ff00 } );
     const cube = new THREE.Mesh( geometry, material );
-    camera.attach(cube);
+    //camera.attach(cube);
+
+    const folder = gui.addFolder("Cube");
+    folder.add(cube.position, 'x', -2, 2, 0.1).name('x');
+    folder.add(cube.position, 'y', -2, 2, 0.1).name('y');
+    folder.add(cube.position, 'z', -2, 2, 0.1).name('z');
+    folder.addColor(cube.material, 'color');
 
     function initialize() {
         scene.clear();
