@@ -1,6 +1,6 @@
 # Todo List
 - [ ] Terrain
-    - [ ] Flat terrain (for now)
+    - [x] Flat terrain (for now)
     - [ ] Environment
         - [ ] Trees
         - [ ] Rocks
