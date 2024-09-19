@@ -1,6 +1,5 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
-import { createCamera, Camera } from '@/camera'
 import { Terrain } from '@/terrain';
 
 export function createScene(renderer, stats, gui) {
@@ -42,7 +41,6 @@ export function createScene(renderer, stats, gui) {
     }
 
     function tick() {
-        //camera.tick();
     }
 
     function draw() {
@@ -62,26 +60,9 @@ export function createScene(renderer, stats, gui) {
         renderer.setAnimationLoop(null);
     }
 
-    // Handle events
-    function onMouseDown(event) {
-        //camera.onMouseDown(event);
-    }
-
-    function onMouseUp(event) {
-        //camera.onMouseUp(event);
-    }
-
-    function onMouseMove(event) {
-        //camera.onMouseMove(event);
-    }
-
-    function onScroll(event) {
-       // camera.onScroll(event);
-    }
-
     function handleResize(event) {
-      // camera.aspect = window.innerWidth / window.innerHeight;
-       // camera.updateProjectionMatrix();
+      camera.aspect = window.innerWidth / window.innerHeight;
+       camera.updateProjectionMatrix();
     }
 
     return {
@@ -89,10 +70,6 @@ export function createScene(renderer, stats, gui) {
         tick,
         start,
         stop,
-        onMouseDown,
-        onMouseUp,
-        onMouseMove,
-        onScroll,
         handleResize,
     }
 }
