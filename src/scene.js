@@ -1,26 +1,31 @@
 import * as THREE from 'three';
-import { createCamera } from '@/camera'
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import { createCamera, Camera } from '@/camera'
+import { Terrain } from '@/terrain';
 
 export function createScene(renderer, stats, gui) {
     // Create scene and camera
     const scene = new THREE.Scene();
-    const camera = createCamera();
 
-    // Create a test cube
-    const geometry = new THREE.BoxGeometry( 1, 1, 1 );
-    const material = new THREE.MeshLambertMaterial( { color: 0x00ff00 } );
-    const cube = new THREE.Mesh( geometry, material );
-    //camera.attach(cube);
+    const camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 1, 10000 );
+    const controls = new OrbitControls( camera, renderer.domElement );
 
-    const folder = gui.addFolder("Cube");
-    folder.add(cube.position, 'x', -2, 2, 0.1).name('x');
-    folder.add(cube.position, 'y', -2, 2, 0.1).name('y');
-    folder.add(cube.position, 'z', -2, 2, 0.1).name('z');
-    folder.addColor(cube.material, 'color');
+    let terrain = new Terrain(10, 10);
+
+    const terrainFolder = gui.addFolder("Terrain");
+    terrainFolder.add(terrain, 'width', 1, 20, 1).name('width');
+    terrainFolder.add(terrain, 'height', 1, 20, 1).name('height');
+    terrainFolder.addColor(terrain.material, 'color');
+    terrainFolder.onChange(() => {
+        terrain.updateGeometry();
+    });
+
+    camera.position.set( 0, 10, 10 );
+    controls.update();
 
     function initialize() {
         scene.clear();
-        scene.add(cube);
+        scene.add(terrain);
         
         setupLights();
     }
@@ -37,13 +42,14 @@ export function createScene(renderer, stats, gui) {
     }
 
     function tick() {
-        camera.tick();
+        //camera.tick();
     }
 
     function draw() {
         // Render the frame
         stats?.update();
-        renderer.render(scene, camera.camera);
+        controls.update();
+        renderer.render(scene, camera);
     }
 
     function start() {
@@ -58,24 +64,24 @@ export function createScene(renderer, stats, gui) {
 
     // Handle events
     function onMouseDown(event) {
-        camera.onMouseDown(event);
+        //camera.onMouseDown(event);
     }
 
     function onMouseUp(event) {
-        camera.onMouseUp(event);
+        //camera.onMouseUp(event);
     }
 
     function onMouseMove(event) {
-        camera.onMouseMove(event);
+        //camera.onMouseMove(event);
     }
 
     function onScroll(event) {
-        camera.onScroll(event);
+       // camera.onScroll(event);
     }
 
     function handleResize(event) {
-        camera.camera.aspect = window.innerWidth / window.innerHeight;
-        camera.camera.updateProjectionMatrix();
+      // camera.aspect = window.innerWidth / window.innerHeight;
+       // camera.updateProjectionMatrix();
     }
 
     return {
