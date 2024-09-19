@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import { createCamera } from '@/camera'
 
-export function createScene(renderer) {
+export function createScene(renderer, stats) {
     // Create scene and camera
     const scene = new THREE.Scene();
     const camera = createCamera();
@@ -21,28 +21,22 @@ export function createScene(renderer) {
 
     // Lights
     function setupLights() {
-        const lights = [
-            new THREE.AmbientLight(0xffffff, 0.2),
-            new THREE.DirectionalLight(0xffffff, 0.3),
-            new THREE.DirectionalLight(0xffffff, 0.3),
-            new THREE.DirectionalLight(0xffffff, 0.3),
-        ];
+        const ambient = new THREE.AmbientLight();
+        ambient.intensity = 0.5;
 
-        lights[1].position.set(0, 1, 0);
-        lights[1].position.set(1, 1, 0);
-        lights[1].position.set(0, 1, 1);
+        const sun = new THREE.DirectionalLight();
+        sun.position.set(1,2,3)
 
-        scene.add(...lights);
+        scene.add(ambient, sun);
     }
 
     function tick() {
-        cube.position.x += 0.1;
-        
         camera.tick();
     }
 
     function draw() {
         // Render the frame
+        stats?.update();
         renderer.render(scene, camera.camera);
     }
 
@@ -73,6 +67,11 @@ export function createScene(renderer) {
         camera.onScroll(event);
     }
 
+    function handleResize(event) {
+        camera.camera.aspect = window.innerWidth / window.innerHeight;
+        camera.camera.updateProjectionMatrix();
+    }
+
     return {
         initialize,
         tick,
@@ -82,5 +81,6 @@ export function createScene(renderer) {
         onMouseUp,
         onMouseMove,
         onScroll,
+        handleResize,
     }
 }

@@ -41,7 +41,6 @@ export function createCamera() {
 
     function tick() {
         if (attachedMesh) cameraOrigin = attachedMesh.position;
-        console.log(cameraOrigin);
         updateCameraPosition();
     }
 

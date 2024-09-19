@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import Stats from 'three/addons/libs/stats.module.js';
 import { createScene } from '@/scene'
 
 export function createGame() {
@@ -10,15 +11,19 @@ export function createGame() {
     renderer.setSize(window.innerWidth, window.innerHeight);
     document.body.appendChild(renderer.domElement);
 
-    // Add event listeners so that user inputs can be handled
-    document.addEventListener('mousedown', onMouseDown, false);
-    document.addEventListener('mouseup',   onMouseUp,   false);
-    document.addEventListener('mousemove', onMouseMove, false);
-    document.addEventListener('wheel',     onScroll,    false);
+    // Add stats
+    const stats = new Stats();
+    document.body.appendChild(stats.dom);
 
+    // Add event listeners so that user inputs can be handled
+    window.addEventListener('mousedown', onMouseDown,  false);
+    window.addEventListener('mouseup',   onMouseUp,    false);
+    window.addEventListener('mousemove', onMouseMove,  false);
+    window.addEventListener('wheel',     onScroll,     false);
+    window.addEventListener('resize',    handleResize, false);
 
     // Create and start a scene
-    const scene = createScene(renderer);
+    const scene = createScene(renderer, stats);
     scene.initialize();
     scene.start();
 
@@ -47,5 +52,10 @@ export function createGame() {
     function onScroll(event) {
         //tick();
         scene.onScroll(event);
+    }
+
+    function handleResize(event) {
+        scene.handleResize(event);
+        renderer.setSize(window.innerWidth, window.innerHeight);
     }
 }
