@@ -1,8 +1,8 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
-import { Terrain } from '@/terrain';
+import Terrain from '@/terrain';
 
-export class Scene extends THREE.Scene {
+export default class Scene extends THREE.Scene {
     constructor(renderer, stats, gui) {
         super();
 

@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import Stats from 'three/addons/libs/stats.module.js';
 import GUI from 'lil-gui';
-import { Scene } from '@/scene'
+import Scene from '@/scene'
 
 export function createGame() {
     // Game settings

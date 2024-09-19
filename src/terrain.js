@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 
-export class Terrain extends THREE.Mesh {
+export default class Terrain extends THREE.Mesh {
     constructor(width, height) {
         super();
 
